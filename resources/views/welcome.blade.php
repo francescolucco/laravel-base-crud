@@ -3,6 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="{{asset('css/app.css')}}">
 
         <title>Laravel</title>
 
@@ -64,6 +65,8 @@
         </style>
     </head>
     <body>
+        ciaoooooooooooooooooo <i class="fa fa-bandcamp" aria-hidden="true"></i>
+
         <div class="flex-center position-ref full-height">
             @if (Route::has('login'))
                 <div class="top-right links">

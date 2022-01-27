@@ -1,0 +1,22 @@
+.comics-show{
+   .col.uno{
+      h1{
+         text-transform: uppercase;
+         font-weight: bold;
+      }
+      h5{
+         font-style: italic;
+         text-align: justify;
+      }
+      h6{
+         font-weight: bold;
+         line-height: 30px;
+         span{
+            color: red;
+         }
+      }
+      p{
+         font-weight: bold;
+      }
+   }
+}

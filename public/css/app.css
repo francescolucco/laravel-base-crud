@@ -14005,3 +14005,26 @@ a.text-dark:focus {
   clip: auto;
 }
 
+.comics-show .col.uno h1 {
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.comics-show .col.uno h5 {
+  font-style: italic;
+  text-align: justify;
+}
+
+.comics-show .col.uno h6 {
+  font-weight: bold;
+  line-height: 30px;
+}
+
+.comics-show .col.uno h6 span {
+  color: red;
+}
+
+.comics-show .col.uno p {
+  font-weight: bold;
+}
+

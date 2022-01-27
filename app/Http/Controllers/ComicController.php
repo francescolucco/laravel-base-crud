@@ -16,7 +16,7 @@ class ComicController extends Controller
     {
         // recupero i comic TUTTI dal db e li do indietro come model alla view
 
-        $comics = Comic::all();
+        $comics = Comic::paginate(4);
 
         return view('comics.home', compact('comics'));
     }
@@ -50,7 +50,9 @@ class ComicController extends Controller
      */
     public function show($id)
     {
-        //
+        $comic = Comic::find($id);
+        // dump($comic);
+        return view('comics.show', compact('comic'));
     }
 
     /**

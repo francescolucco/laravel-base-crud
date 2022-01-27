@@ -1,18 +1,15 @@
 <header>
-
+ <nav class="py-4">
    <ul class="nav nav-pills">
       <li class="nav-item">
-        <a class="nav-link active" aria-current="page" href="#">Active</a>
+        <a class="nav-link {{(Route::currentRouteName() === 'home') ? 'active' : ''}} " aria-current="page" href="{{route('home')}}">Home</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Link</a>
+        <a class="nav-link {{(Route::currentRouteName() === 'comics.index') ? 'active' : ''}}" href="{{route('comics.index')}}">Comics</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Link</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link disabled">Disabled</a>
+        <a class="nav-link {{(Route::currentRouteName() === 'readers') ? 'active' : ''}}" href="{{route('readers')}}">Readers</a>
       </li>
     </ul>
-
+ </nav>
 </header>

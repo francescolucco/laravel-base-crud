@@ -10,4 +10,9 @@ class PageController extends Controller
 
         return view('home');
     }
+
+    public function readers(){
+
+        return view('readers');
+    }
 }

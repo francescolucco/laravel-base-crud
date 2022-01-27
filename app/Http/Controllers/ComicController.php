@@ -13,6 +13,11 @@ class ComicController extends Controller
      */
     public function index()
     {
+        // recupero i comitc TUTTI dal db e li do indietro come model alla view
+
+        // $copmis = Comic::all();
+
+
         return view('comics.home');
     }
 

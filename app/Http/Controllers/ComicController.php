@@ -18,7 +18,7 @@ class ComicController extends Controller
 
         $comics = Comic::paginate(4);
 
-        return view('comics.home', compact('comics'));
+        return view('comics.index', compact('comics'));
     }
 
     /**
@@ -48,12 +48,32 @@ class ComicController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+    //  Ti passo lo slug dell'oggetto, prendi gli oggetti con model comic. Se ne trovi uno il cui slug è uguale allo slug che passo alla funzione, restituiscimi il primo che trovi come oggetto. Per questo metto funzione first(). Se avessi messo get() mi avrebbe restituito una collection, e mi avrebbe dato la pagina errore
+    // public function show($slug)
+    // {
+    //     $comic = Comic::where('slug', $slug)->first();
+    //     // dump($comic);
+    //     return view('comics.show', compact('comic'));
+    // }
+
+    // Ti passo l'id, fai un find(), restituiscimi l'intero oggetto che corrisponde a quella id
     public function show($id)
     {
         $comic = Comic::find($id);
         // dump($comic);
-        return view('comics.show', compact('comic'));
+        if($comic){
+            return view('comics.show', compact('comic'));
+        }
+        abort(404, 'Pagina in manutenzione');
     }
+
+
+    // Ti passo il Model e i dati, fai un find() e se lo trovi restituiscimi l'oggetto e il suo id che andrà nell'url
+    // public function show(Comic $comic)
+    // {
+    //     return view('comics.show', compact('comic'));
+    // }
 
     /**
      * Show the form for editing the specified resource.

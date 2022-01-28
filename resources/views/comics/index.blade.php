@@ -20,6 +20,8 @@
            <td>{{$comic->title}}</td>
            <td>{{$comic->series}}</td>
            <td><a href="{{route('comics.show', $comic)}}" type="button" class="btn btn-primary">Show</a></td>
+           {{-- <td><a href="{{route('comics.show', $comic->slug)}}" type="button" class="btn btn-primary">Show</a></td> --}}
+           {{-- <td><a href="{{route('comics.show', $comic)}}" type="button" class="btn btn-primary">Show</a></td> --}}
            <td><a href="#" type="button" class="btn btn-success">Edit</a></td>
            <td><a href="#" type="button" class="btn btn-danger">Delete</a></td>
          </tr>

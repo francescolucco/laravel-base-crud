@@ -39,7 +39,7 @@ class ComicController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
+    {   
         // Con il nostro form atterriamo qui, con i dati, inviati una volta premuto il bottone SUBMIT
         // la classe Request prende tutto quello che arriva e le inizializza nell'istanza $request
         // andiamo a vederla con la funzione d and d
@@ -47,8 +47,9 @@ class ComicController extends Controller
         // una volta accertato che tutto funziona inizializzo una variabile $data al cui interno salvo i dati della $request
         // dump($request);
         $data = $request->all();
+        // data è un array associativo
         // dump($data);
-        // così non mi passa solo i dati del form e non tutti gli altri mille attributi che ora non mi servono
+        // così non mi passa solo i dati "name" del form e non tutti gli altri mille attributi che ora non mi servono
         $new_comic = new Comic();
         $new_comic->title = $data['title'];
         $new_comic->thumb = $data['thumb'];
@@ -59,6 +60,7 @@ class ComicController extends Controller
         $new_comic->description = $data['description'];
         // Attenzione: dentro la parentesi non vado a prendere il titolo del $data, ma dal $new_comic stesso, perché ho bisogno di indicizzare una pagina nuova con i dati appena inseriti
         $new_comic->slug = Str::slug($new_comic->title, '-');
+        // $data['slug'] = $this->createSlug($data['title']);
         // dd( $new_comic);
         $new_comic->save();
 
@@ -66,7 +68,16 @@ class ComicController extends Controller
         return redirect()->route('comics.show', $new_comic);
 
         // Se invece voglio tornare all'elenco, allora posso mettere solo la rotta index, senza entità
-        return redirect()->route('comics.index');
+        // return redirect()->route('comics.index');
+
+        // se nel Model ho utilizzato la proprietà protetta $fillable, qui, invece di inserire tutte le proprietà dei dati, posso inserire direttamente questa riga di codice, si arrangia lui dividere i dati in base alle voci presenti nell'array $fillable nel MODEL
+        // Diventa:
+        // $data = $request->all();
+
+        // $new_comic = new Comic();
+        // $data['slug'] = Str::slug($data['slug'], '-');
+        // $new_comic->fill($data);
+        // $new_comic->save();
     }
 
     /**
@@ -76,7 +87,7 @@ class ComicController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    //  Ti passo lo slug dell'oggetto, prendi gli oggetti con model comic. Se ne trovi uno il cui slug è uguale allo slug che passo alla funzione, restituiscimi il primo che trovi come oggetto. Per questo metto funzione first(). Se avessi messo get() mi avrebbe restituito una collection, e mi avrebbe dato la pagina errore
+    //  Ti passo lo slug dell'oggetto, prendi gli oggetti con model comic se ne trovi uno il cui slug è uguale allo slug che passo alla funzione, restituiscimi il primo che trovi come oggetto. Per questo metto funzione first(). Se avessi messo get() mi avrebbe restituito una collection, e mi avrebbe dato la pagina errore
     // public function show($slug)
     // {
     //     $comic = Comic::where('slug', $slug)->first();
@@ -110,8 +121,13 @@ class ComicController extends Controller
      */
     public function edit($id)
     {
-        //
+        $comic = Comic::find($id);
+        if($comic){
+            return view('comics.edit', compact('comic'));
+        }
+        abort(404, 'Impossibile modificare la pagina');
     }
+    
 
     /**
      * Update the specified resource in storage.
@@ -120,9 +136,18 @@ class ComicController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Comic $comic)
     {
-        //
+        // prendo tutte le info che arrivano
+        $data = $request->all();
+        // passiamo lo slug perchè dobbiamo ricrearlo dopo aver modificato i dati
+        // $data['slug'] = Str::slug($data['title'], '-');
+        $data['slug'] = $this->createSlug($data['title']);
+
+        // faccio  un comic apdate di data
+        $comic->update($data);
+        // quindi faccio un reindirizzamento
+        return redirect()->route('comics.show', $comic);
     }
 
     /**
@@ -131,8 +156,14 @@ class ComicController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Comic $comic)
     {
-        //
+        $comic->delete();
+
+        return redirect()->route('comics.index');
+    }
+
+    private function createSlug($string){
+        return Str::slug($string, '-');
     }
 }

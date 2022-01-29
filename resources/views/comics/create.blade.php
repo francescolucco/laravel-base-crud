@@ -22,12 +22,6 @@
             </div>
             
             <div class="mb-3">
-               <label for="title" class="form-label">Titolo Fumetto</label>
-               <input type="text" class="form-control" name="title" id="title" placeholder="Titolo Fumetto">
-            </div>
-            
-            
-            <div class="mb-3">
                <label for="thumb" class="form-label">URL image</label>
                <input type="url" class="form-control" name="thumb" id="thumb" placeholder="URL">
             </div>

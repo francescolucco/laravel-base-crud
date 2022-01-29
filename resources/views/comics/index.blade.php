@@ -21,9 +21,22 @@
            <td>{{$comic->series}}</td>
            <td><a href="{{route('comics.show', $comic)}}" type="button" class="btn btn-primary">Show</a></td>
            {{-- <td><a href="{{route('comics.show', $comic->slug)}}" type="button" class="btn btn-primary">Show</a></td> --}}
-           {{-- <td><a href="{{route('comics.show', $comic)}}" type="button" class="btn btn-primary">Show</a></td> --}}
-           <td><a href="#" type="button" class="btn btn-success">Edit</a></td>
-           <td><a href="#" type="button" class="btn btn-danger">Delete</a></td>
+           <td><a href="{{ route('comics.edit', $comic)}}" type="button" class="btn btn-success">Edit</a></td>
+
+           <td>
+            {{-- per fare il delete mi verrebbe spontaneo fare così: --}}
+            {{-- <td><a href="{{ route('comics.destroy', $comic)}}" type="button" class="btn btn-dark">Delete</a></td>
+            <td> --}}
+            {{-- mai in questo modo invierei i dati in GET --}}
+            {{-- Per questo ho bisogno di creare un piccolo form con @method('DELETE') che invii i dati al destroy --}}
+            <form action="{{ route('comics.destroy', $comic)}}" method="POST">
+              @csrf
+              @method('DELETE')
+
+              <button type="submit" value="cancella" class="btn btn-danger">EDIT</button>
+            
+            </form> 
+          </td>
          </tr>
          @endforeach
       </tbody>

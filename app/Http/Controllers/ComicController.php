@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Comic;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class ComicController extends Controller
 {
@@ -28,7 +29,7 @@ class ComicController extends Controller
      */
     public function create()
     {
-        //
+        return view('comics.create');
     }
 
     /**
@@ -39,7 +40,33 @@ class ComicController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Con il nostro form atterriamo qui, con i dati, inviati una volta premuto il bottone SUBMIT
+        // la classe Request prende tutto quello che arriva e le inizializza nell'istanza $request
+        // andiamo a vederla con la funzione d and d
+        // dd($request);
+        // una volta accertato che tutto funziona inizializzo una variabile $data al cui interno salvo i dati della $request
+        // dump($request);
+        $data = $request->all();
+        // dump($data);
+        // così non mi passa solo i dati del form e non tutti gli altri mille attributi che ora non mi servono
+        $new_comic = new Comic();
+        $new_comic->title = $data['title'];
+        $new_comic->thumb = $data['thumb'];
+        $new_comic->price = $data['price'];
+        $new_comic->series = $data['series'];
+        $new_comic->sale_date = $data['sale_date'];
+        $new_comic->type = $data['type'];
+        $new_comic->description = $data['description'];
+        // Attenzione: dentro la parentesi non vado a prendere il titolo del $data, ma dal $new_comic stesso, perché ho bisogno di indicizzare una pagina nuova con i dati appena inseriti
+        $new_comic->slug = Str::slug($new_comic->title, '-');
+        // dd( $new_comic);
+        $new_comic->save();
+
+        // Una volta salvato l'elenco nel db torniamo alla pagina di descrizione del fumetto, per cui devo passargli anche l'istanza del fumetto
+        return redirect()->route('comics.show', $new_comic);
+
+        // Se invece voglio tornare all'elenco, allora posso mettere solo la rotta index, senza entità
+        return redirect()->route('comics.index');
     }
 
     /**

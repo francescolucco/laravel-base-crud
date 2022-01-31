@@ -2,6 +2,8 @@
 
 @section('content')
 
+{{-- @dump($errors->all()); --}}
+
 <div class="container mb-5">
    <div class="row">
       <div class="col-2 bg-dark">
@@ -12,42 +14,94 @@
       
       <div class="col-8">
          <h1>NUOVO FUMETTO</h1>
+
+         @if ($errors->any())
+         <div class="alert alert-danger" role="alert">
+            <ul>
+               @foreach ($errors->all() as $error)
+                  <li>{{$error}}</li>
+               @endforeach
+            </ul>
+         </div>
+         @endif
          
          <form action="{{ route('comics.store') }}" method="POST">
             @csrf
             
             <div class="mb-3">
                <label for="title" class="form-label">Titolo Fumetto</label>
-               <input type="text" class="form-control" name="title" id="title" placeholder="Titolo Fumetto">
+               <input type="text" class="form-control @error('title') is-invalid                
+               @enderror" value="{{old('title')}}" name="title" id="title" placeholder="Titolo Fumetto">
+               @error('title')
+                  <div id="validationServer03Feedback" class="invalid-feedback">
+                     {{$message}}
+                  </div>
+               @enderror
             </div>
             
             <div class="mb-3">
                <label for="thumb" class="form-label">URL image</label>
-               <input type="url" class="form-control" name="thumb" id="thumb" placeholder="URL">
+               <input type="url" class="form-control @error('thumb') is-invalid                
+               @enderror" value="{{old('thumb')}}" name="thumb" id="thumb" placeholder="URL">
+               @error('thumb')
+                  <div id="validationServer03Feedback" class="invalid-feedback">
+                     {{$message}}
+                  </div>
+               @enderror
             </div>
             
             <div class="mb-3">
                <label for="price" class="form-label">Prezzo</label>
-               <input type="number" class="form-control" name="price" id="price" placeholder="Prezzo">
+               <input type="number" class="form-control @error('price') is-invalid                
+               @enderror" value="{{old('price')}}" name="price" id="price" placeholder="Prezzo">
+               @error('price')
+                  <div id="validationServer03Feedback" class="invalid-feedback">
+                     {{$message}}
+                  </div>
+               @enderror
             </div>
             
             <div class="mb-3">
                <label for="series" class="form-label">Serie</label>
-               <input type="text" class="form-control" name="series" id="series" placeholder="Serie">
+               <input type="text" class="form-control @error('series') is-invalid                
+               @enderror" value="{{old('series')}}" name="series" id="series" placeholder="Serie">
+               @error('series')
+                  <div id="validationServer03Feedback" class="invalid-feedback">
+                     {{$message}}
+                  </div>
+               @enderror
             </div>
             
             <div class="mb-3">
                <label for="sale_date" class="form-label">Data di uscita</label>
-               <input type="date" class="form-control" name="sale_date" id="sale_date" placeholder="Data di uscita">
+               <input type="date" class="form-control @error('sale_date') is-invalid                
+               @enderror" value="{{old('sale_date')}}" name="sale_date" id="sale_date" placeholder="Data di uscita">
+               @error('sale_date')
+                  <div id="validationServer03Feedback" class="invalid-feedback">
+                     {{$message}}
+                  </div>
+               @enderror
             </div>
             <div class="mb-3">
                <label for="type" class="form-label">Tipo Fumetto</label>
-               <input type="text" class="form-control" name="type" id="type" placeholder="Tipo Fumetto">
+               <input type="text" class="form-control @error('type') is-invalid                
+               @enderror" value="{{old('type')}}" name="type" id="type" placeholder="Tipo Fumetto">
+               @error('type')
+                  <div id="validationServer03Feedback" class="invalid-feedback">
+                     {{$message}}
+                  </div>
+               @enderror
             </div>
             
             <div class="mb-3">
                <label for="description" class="form-label">Descrizione</label>
-               <textarea type="number" class="form-control" name="description" id="description" rows="3"></textarea>
+               <textarea type="number" class="form-control @error('description') is-invalid                
+               @enderror" name="description" id="description" rows="3">{{old('description')}}</textarea>
+               @error('description')
+                  <div id="validationServer03Feedback" class="invalid-feedback">
+                     {{$message}}
+                  </div>
+               @enderror
             </div>
             
             <button type="submit" class="btn btn-primary">INVIA</button>

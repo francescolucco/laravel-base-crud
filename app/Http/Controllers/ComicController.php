@@ -17,7 +17,7 @@ class ComicController extends Controller
     {
         // recupero i comic TUTTI dal db e li do indietro come model alla view
 
-        $comics = Comic::paginate(4);
+        $comics = Comic::orderBy('id', 'desc')->paginate(4);
 
         return view('comics.index', compact('comics'));
     }
@@ -44,6 +44,10 @@ class ComicController extends Controller
         // la classe Request prende tutto quello che arriva e le inizializza nell'istanza $request
         // andiamo a vederla con la funzione d and d
         // dd($request);
+        $request->validate(
+            $this->validationCamp(),
+            $this->validationErrors()
+        );
         // una volta accertato che tutto funziona inizializzo una variabile $data al cui interno salvo i dati della $request
         // dump($request);
         $data = $request->all();
@@ -137,7 +141,11 @@ class ComicController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Comic $comic)
-    {
+    {   
+        $request->validate(
+            $this->validationCamp(),
+            $this->validationErrors()
+        );
         // prendo tutte le info che arrivano
         $data = $request->all();
         // passiamo lo slug perchè dobbiamo ricrearlo dopo aver modificato i dati
@@ -165,5 +173,47 @@ class ComicController extends Controller
 
     private function createSlug($string){
         return Str::slug($string, '-');
+    }
+
+    private function validationCamp(){
+        return [
+            'title'=>'required|min:4|max:50',
+            'thumb'=>'required|url',
+            'price'=>'required|numeric',
+            'series'=>'required|min:2|max:50',
+            'sale_date'=>'required|date',
+            'type'=>'required|min:2|max:20',
+            'description'=>'required|min:2',
+        ];
+    }
+    
+    private function validationErrors(){
+        
+        return [
+            'title.required'=>'Il titolo è un campo obbligatorio',
+            'title.min'=>'Il titolo deve essere lungo almento :min caratteri',
+            'title.max'=>'Il titolo deve essere lungo almento :max caratteri',
+
+            'thumb.required'=>"L'URL è un campo obbligatorio",
+            'thumb.url'=>"Il campo deve contenere una URL valida",
+
+            'price.required'=>'Il prezzo è un campo obbligatorio',
+            'price.numeric'=>'Il prezzo deve essere un numero',
+
+            'series.required'=>'La serie è un campo obbligatorio',
+            'series.min'=>'La serie deve essere lungo almento :min caratteri',
+            'series.max'=>'La serie deve essere lungo almento :max caratteri',
+
+            'sale_date.required'=>'la data è un campo obbligatorio',
+            'sale_date.date'=>'Inserire una data valida',
+
+            'type.required'=>'Il tipo è un campo obbligatorio',
+            'type.min'=>'Il tipo deve essere lungo almento :min caratteri',
+            'type.max'=>'La tipologia di fumetto deve essere lunga almento :max caratteri',
+
+            'description.required'=>'La sescrizione è un campo obbligatorio',
+            'description.min'=>'La sescrizione deve essere lungo almento :min caratteri',
+            'description.max'=>'La descrizione deve essere lungo almento :max caratteri',
+        ];
     }
 }

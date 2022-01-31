@@ -2,7 +2,15 @@
 
 @section('content')
 
+{{-- @dump(session()->all()) --}}
+
    <h1>COMICS</h1>
+
+   @if (session('deleted'))
+    <div class="alert alert-info" role="alert">
+      {{session('deleted')}}
+    </div>
+   @endif
    
    <table class="table">
       <thead>
@@ -29,7 +37,7 @@
             <td> --}}
             {{-- mai in questo modo invierei i dati in GET --}}
             {{-- Per questo ho bisogno di creare un piccolo form con @method('DELETE') che invii i dati al destroy --}}
-            <form action="{{ route('comics.destroy', $comic)}}" method="POST">
+            <form onsubmit="return confirm('Sei sicuro di voler eliminare {{$comic->title}}?')" action="{{ route('comics.destroy', $comic)}}" method="POST">
               @csrf
               @method('DELETE')
 
